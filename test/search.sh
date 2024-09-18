@@ -1,0 +1,73 @@
+clear
+#curl -XPOST \
+#  'https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false' \
+#  -H 'accept: */*' \
+#  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8,fr;q=0.7' \
+#  -H 'authorization: SAPISIDHASH 1726596817_9db659acefd0a29df7045c43ec7b8ed8638f8516' \
+#  -H 'content-type: application/json' \
+#  -H 'cookie: VISITOR_PRIVACY_METADATA=CgJGUhIIEgQSAgsMIDU%3D; HSID=Aae4SWlg0GVVxiom_; SSID=AVislzlNWMIgvYeuO; APISID=iLpEJdNSrARme-rB/A-jCwRY9rAFNy9fY5; SAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; __Secure-1PAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; __Secure-3PAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; _gcl_au=1.1.1715693638.1725978146; __Secure-YEC=CgstM1BlSVZ5Q2JsSSiz-IK3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgUQ%3D%3D; VISITOR_INFO1_LIVE=usraxMOkhuM; VISITOR_PRIVACY_METADATA=CgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D; DEVICE_INFO=ChxOelF4TXpFek1qSXhPVFkyTnpJd05UYzRNdz09EPr4grcGGPr4grcG; SID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnkB6xYuzBCcVZ1jXq_2cl0wACgYKAQ0SARUSFQHGX2MiMU_hMwQv4kAtalhyTTTnGRoVAUF8yKpQw2srpz96NKA5aIM1RdzA0076; __Secure-1PSID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnqNABgC5nnVei-vyXuTNMcgACgYKAXYSARUSFQHGX2MiHfJocIofddS21zx6DCncrBoVAUF8yKokBg4iQ_ey1pzNuDez7V8K0076; __Secure-3PSID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnEYBEVB8ujQy6blQlCFTiewACgYKAVASARUSFQHGX2MixAs0FrL8mN9DBNnUAxr6TRoVAUF8yKpHLUPChrLNpqwk_8gZ_C1q0076; LOGIN_INFO=AFmmF2swRQIhAPnkW4-G_qIfHGw7FFkA_y8eU8Z8dGoYxmIeyENEZuDiAiApCBO49ccGc6f3u6Y-G8hqqSr6iVZXL06xUg8NwgIvig:QUQ3MjNmekVOWFo3YlZRV2RLdEJQQy1iVDhhTU1oWTdIdlZNekZZLXBTMm5Tal9mZEY1d0EwODZiZTdUWEREUklXRXFfS1R6ZDV3U29CdG5UVWNwa0lkR3NZak5rWnUyRDhTbDIxWU8xd0d1TTVidWtQcGUxNGZQYW9fTzdmaUNmcFQ0dC02aTRhTHBQSDU2WVN6UVdLaXFXWUdGQzQydzJn; _ga_R3HTL8G9BH=GS1.2.1726004377.1.1.1726004389.0.0.0; YTV_CLC=locsrc=1&locs=2&tz=Europe%2FParis; _ga=GA1.1.482398938.1726004366; _ga_5RPMD1E2GM=GS1.1.1726004366.1.1.1726004458.0.0.0; __Secure-1PSIDTS=sidts-CjEBUFGohyUJR1czPG6Pg-4PeOQMQwUg217ygvLuEXFJdXp4IP7vrTn_ZzQP1OS2EpehEAA; __Secure-3PSIDTS=sidts-CjEBUFGohyUJR1czPG6Pg-4PeOQMQwUg217ygvLuEXFJdXp4IP7vrTn_ZzQP1OS2EpehEAA; PREF=f6=40000080&volume=100&f7=4100&has_user_changed_default_autoplay_mode=true&tz=Europe.Paris&autoplay=true&repeat=NONE&f3=8&f4=4000000; YSC=9dgpcXnkW-I; SIDCC=AKEyXzU-tOLNEfiS9QpB7CyJCC__szXr866scw5aSWgynza1GIsUWyoGmmPdSbKc8Ovh5oHbYM8i; __Secure-1PSIDCC=AKEyXzU94WZ0HbmFBtvcsAEOyIVPATj4v4avzAtbWvzW3Ei9r-G6aemPbF_L-Guw9AxJAHmOBVo; __Secure-3PSIDCC=AKEyXzUAcEaeOZfIG_mcP_gT3a00SeS1IJAdGO88hNKwTiFesG0zs6gaKh46ieOivqFhdkNrBdY' \
+#  -H 'origin: https://music.youtube.com' \
+#  -H 'priority: u=1, i' \
+#  -H 'referer: https://music.youtube.com/search?q=bonjour' \
+#  -H 'sec-ch-ua: "Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"' \
+#  -H 'sec-ch-ua-arch: "x86"' \
+#  -H 'sec-ch-ua-bitness: "64"' \
+#  -H 'sec-ch-ua-form-factors: "Desktop"' \
+#  -H 'sec-ch-ua-full-version: "128.0.6613.138"' \
+#  -H 'sec-ch-ua-full-version-list: "Chromium";v="128.0.6613.138", "Not;A=Brand";v="24.0.0.0", "Google Chrome";v="128.0.6613.138"' \
+#  -H 'sec-ch-ua-mobile: ?0' \
+#  -H 'sec-ch-ua-model: ""' \
+#  -H 'sec-ch-ua-platform: "Windows"' \
+#  -H 'sec-ch-ua-platform-version: "15.0.0"' \
+#  -H 'sec-ch-ua-wow64: ?0' \
+#  -H 'sec-fetch-dest: empty' \
+#  -H 'sec-fetch-mode: same-origin' \
+#  -H 'sec-fetch-site: same-origin' \
+#  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \
+#  -H 'x-client-data: CIy2yQEIo7bJAQipncoBCP/fygEIkqHLAQiFoM0BCMK2zgEI2b3OARiPzs0BGJyxzgE=' \
+#  -H 'x-goog-authuser: 0' \
+#  -H 'x-goog-visitor-id: Cgt1c3JheE1Pa2h1TSi-iae3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D' \
+#  -H 'x-origin: https://music.youtube.com' \
+#  -H 'x-youtube-bootstrap-logged-in: true' \
+#  -H 'x-youtube-client-name: 67' \
+#  -H 'x-youtube-client-version: 1.20240911.01.00' \
+#  --data-raw '{"input":"bonjour","context":{"client":{"hl":"fr","gl":"FR","remoteHost":"2a02:842a:820b:3801:1116:fca5:823a:3edb","deviceMake":"","deviceModel":"","visitorData":"Cgt1c3JheE1Pa2h1TSi-iae3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36,gzip(gfe)","clientName":"WEB_REMIX","clientVersion":"1.20240911.01.00","osName":"Windows","osVersion":"10.0","originalUrl":"https://music.youtube.com/search?q=bonjour","screenPixelDensity":1,"platform":"DESKTOP","clientFormFactor":"UNKNOWN_FORM_FACTOR","configInfo":{"appInstallData":"CL6Jp7cGEOW5sQUQ1t2wBRCUibEFEO7LsQUQ-cyxBRCinbEFEOPRsAUQhaexBRDrmbEFENnJrwUQppKxBRD5ubEFELfvrwUQ3q2xBRCHw7EFEMX1sAUQ3ej-EhCazrEFELyx_xIQ9MCxBRComrAFEOyosQUQvL6xBRCe0LAFEImnsQUQ4riwBRDvx7EFENPEsQUQlP6wBRDGpLEFEMLF_xIQgcOxBRD4q7EFEPPHsQUQ0-GvBRCIh7AFEL22rgUQrsGxBRD-17AFEIjjrwUQ7bmxBRDwnLAFEJajsQUQ8LuxBRDr6P4SEJmYsQUQ9KuwBRCigbAFEJDMsQUQ0I2wBRCNlLEFEParsAUQ6sOvBRCKobEFEIXDsQUQt-r-EhC9irAFEO_NsAUQqtiwBRCPw7EFEL2ZsAUQlpWwBRCSy7EFENGvsQUQgsawBRDJ968FEMnmsAUQ3u2wBRCw7rAFEOnMsQUQ-syxBRCSrrEFEMzfrgUQmI2xBRCokrEFEKaTsQUQx-awBRDTz7EFEOCrsQUQnbT_EhDOy_8SKhxDQU1TRHhVTW9MMndETkhrQnJxNWh3b2RCdz09","coldConfigData":"CL6Jp7cGGjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQSIyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D","coldHashData":"CL6Jp7cGEhM4MzcyMjg4Nzg1MDY2MDg0NzkyGL6Jp7cGMjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQToyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D","hotHashData":"CL6Jp7cGEhM2ODA4NDEzMTM1MzUwOTY2OTYzGL6Jp7cGMjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQToyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D"},"screenDensityFloat":1,"userInterfaceTheme":"USER_INTERFACE_THEME_DARK","timeZone":"Europe/Paris","browserName":"Chrome","browserVersion":"128.0.0.0","acceptHeader":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","deviceExperimentId":"ChxOelF4TXpFek1qSXhPVFkyTnpJd05UYzRNdz09EL6Jp7cGGPr4grcG","screenWidthPoints":1920,"screenHeightPoints":911,"utcOffsetMinutes":120,"musicAppInfo":{"pwaInstallabilityStatus":"PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED","webDisplayMode":"WEB_DISPLAY_MODE_BROWSER","storeDigitalGoodsApiSupportStatus":{"playStoreDigitalGoodsApiSupportStatus":"DIGITAL_GOODS_API_SUPPORT_STATUS_UNSUPPORTED"}}},"user":{"lockedSafetyMode":false},"request":{"useSsl":true,"internalExperimentFlags":[],"consistencyTokenJars":[]},"adSignalsInfo":{"params":[{"key":"dt","value":"1726596286859"},{"key":"flash","value":"0"},{"key":"frm","value":"0"},{"key":"u_tz","value":"120"},{"key":"u_his","value":"7"},{"key":"u_h","value":"1080"},{"key":"u_w","value":"1920"},{"key":"u_ah","value":"1032"},{"key":"u_aw","value":"1920"},{"key":"u_cd","value":"24"},{"key":"bc","value":"31"},{"key":"bih","value":"911"},{"key":"biw","value":"1903"},{"key":"brdim","value":"0,0,0,0,1920,0,1920,1032,1920,911"},{"key":"vis","value":"1"},{"key":"wgl","value":"true"},{"key":"ca_type","value":"image"}]}}}' \
+#  --silent > response1.json ;
+curl -XPOST --silent \
+  'https://music.youtube.com/youtubei/v1/search?prettyPrint=false' \
+  -H 'content-type: application/json' \
+  --data @body_request.json \
+  > test.json
+  # > response2.json
+#curl 'https://music.youtube.com/youtubei/v1/music/get_search_suggestions?prettyPrint=false' \
+#  -H 'accept: */*' \
+#  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8,fr;q=0.7' \
+#  -H 'authorization: SAPISIDHASH 1726596819_7347f7bd8d297e56f54ef5e76e5c5b94acfc9a1d' \
+#  -H 'content-type: application/json' \
+#  -H 'cookie: VISITOR_PRIVACY_METADATA=CgJGUhIIEgQSAgsMIDU%3D; HSID=Aae4SWlg0GVVxiom_; SSID=AVislzlNWMIgvYeuO; APISID=iLpEJdNSrARme-rB/A-jCwRY9rAFNy9fY5; SAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; __Secure-1PAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; __Secure-3PAPISID=F8YNSAR5kkU1K-cE/Aa863IJe8hMNgW0GO; _gcl_au=1.1.1715693638.1725978146; __Secure-YEC=CgstM1BlSVZ5Q2JsSSiz-IK3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgUQ%3D%3D; VISITOR_INFO1_LIVE=usraxMOkhuM; VISITOR_PRIVACY_METADATA=CgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D; DEVICE_INFO=ChxOelF4TXpFek1qSXhPVFkyTnpJd05UYzRNdz09EPr4grcGGPr4grcG; SID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnkB6xYuzBCcVZ1jXq_2cl0wACgYKAQ0SARUSFQHGX2MiMU_hMwQv4kAtalhyTTTnGRoVAUF8yKpQw2srpz96NKA5aIM1RdzA0076; __Secure-1PSID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnqNABgC5nnVei-vyXuTNMcgACgYKAXYSARUSFQHGX2MiHfJocIofddS21zx6DCncrBoVAUF8yKokBg4iQ_ey1pzNuDez7V8K0076; __Secure-3PSID=g.a000nwjP2FaNzGs1KvStgeHw8A1drlHBNH1XeF9-AWut2gzM2LKnEYBEVB8ujQy6blQlCFTiewACgYKAVASARUSFQHGX2MixAs0FrL8mN9DBNnUAxr6TRoVAUF8yKpHLUPChrLNpqwk_8gZ_C1q0076; LOGIN_INFO=AFmmF2swRQIhAPnkW4-G_qIfHGw7FFkA_y8eU8Z8dGoYxmIeyENEZuDiAiApCBO49ccGc6f3u6Y-G8hqqSr6iVZXL06xUg8NwgIvig:QUQ3MjNmekVOWFo3YlZRV2RLdEJQQy1iVDhhTU1oWTdIdlZNekZZLXBTMm5Tal9mZEY1d0EwODZiZTdUWEREUklXRXFfS1R6ZDV3U29CdG5UVWNwa0lkR3NZak5rWnUyRDhTbDIxWU8xd0d1TTVidWtQcGUxNGZQYW9fTzdmaUNmcFQ0dC02aTRhTHBQSDU2WVN6UVdLaXFXWUdGQzQydzJn; _ga_R3HTL8G9BH=GS1.2.1726004377.1.1.1726004389.0.0.0; YTV_CLC=locsrc=1&locs=2&tz=Europe%2FParis; _ga=GA1.1.482398938.1726004366; _ga_5RPMD1E2GM=GS1.1.1726004366.1.1.1726004458.0.0.0; __Secure-1PSIDTS=sidts-CjEBUFGohyUJR1czPG6Pg-4PeOQMQwUg217ygvLuEXFJdXp4IP7vrTn_ZzQP1OS2EpehEAA; __Secure-3PSIDTS=sidts-CjEBUFGohyUJR1czPG6Pg-4PeOQMQwUg217ygvLuEXFJdXp4IP7vrTn_ZzQP1OS2EpehEAA; PREF=f6=40000080&volume=100&f7=4100&has_user_changed_default_autoplay_mode=true&tz=Europe.Paris&autoplay=true&repeat=NONE&f3=8&f4=4000000; YSC=9dgpcXnkW-I; SIDCC=AKEyXzXaTD-vY2a3N_JHhVrLLRWij-bYTLftlBTnZh2kpK_wXLrUpBAqCgM6BiOg7vQmnx9jD3A2; __Secure-1PSIDCC=AKEyXzXXAm1_KU6UdHNFQo2XAg64InfR4jtzmNdrpx8z4RJR7qCRt8P4B3pjtf-ZqJ23KHfZlkU; __Secure-3PSIDCC=AKEyXzVhEVvSj8WCnn8l75GuNJFtFFdJz3MbTeNX2nhJzVLID_kKcwCzvtbb00w0Sak2PGk3rog' \
+#  -H 'origin: https://music.youtube.com' \
+#  -H 'priority: u=1, i' \
+#  -H 'referer: https://music.youtube.com/search?q=bonjour' \
+#  -H 'sec-ch-ua: "Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"' \
+#  -H 'sec-ch-ua-arch: "x86"' \
+#  -H 'sec-ch-ua-bitness: "64"' \
+#  -H 'sec-ch-ua-form-factors: "Desktop"' \
+#  -H 'sec-ch-ua-full-version: "128.0.6613.138"' \
+#  -H 'sec-ch-ua-full-version-list: "Chromium";v="128.0.6613.138", "Not;A=Brand";v="24.0.0.0", "Google Chrome";v="128.0.6613.138"' \
+#  -H 'sec-ch-ua-mobile: ?0' \
+#  -H 'sec-ch-ua-model: ""' \
+#  -H 'sec-ch-ua-platform: "Windows"' \
+#  -H 'sec-ch-ua-platform-version: "15.0.0"' \
+#  -H 'sec-ch-ua-wow64: ?0' \
+#  -H 'sec-fetch-dest: empty' \
+#  -H 'sec-fetch-mode: same-origin' \
+#  -H 'sec-fetch-site: same-origin' \
+#  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \
+#  -H 'x-client-data: CIy2yQEIo7bJAQipncoBCP/fygEIkqHLAQiFoM0BCMK2zgEI2b3OARiPzs0BGJyxzgE=' \
+#  -H 'x-goog-authuser: 0' \
+#  -H 'x-goog-visitor-id: Cgt1c3JheE1Pa2h1TSi-iae3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D' \
+#  -H 'x-origin: https://music.youtube.com' \
+#  -H 'x-youtube-bootstrap-logged-in: true' \
+#  -H 'x-youtube-client-name: 67' \
+#  -H 'x-youtube-client-version: 1.20240911.01.00' \
+#  --data-raw '{"input":"bonjour","context":{"client":{"hl":"fr","gl":"FR","remoteHost":"2a02:842a:820b:3801:1116:fca5:823a:3edb","deviceMake":"","deviceModel":"","visitorData":"Cgt1c3JheE1Pa2h1TSi-iae3BjIiCgJGUhIcEhgSFhMLFBUWFwwYGRobHB0eHw4PIBAREiEgTA%3D%3D","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36,gzip(gfe)","clientName":"WEB_REMIX","clientVersion":"1.20240911.01.00","osName":"Windows","osVersion":"10.0","originalUrl":"https://music.youtube.com/search?q=bonjour","screenPixelDensity":1,"platform":"DESKTOP","clientFormFactor":"UNKNOWN_FORM_FACTOR","configInfo":{"appInstallData":"CL6Jp7cGEOW5sQUQ1t2wBRCUibEFEO7LsQUQ-cyxBRCinbEFEOPRsAUQhaexBRDrmbEFENnJrwUQppKxBRD5ubEFELfvrwUQ3q2xBRCHw7EFEMX1sAUQ3ej-EhCazrEFELyx_xIQ9MCxBRComrAFEOyosQUQvL6xBRCe0LAFEImnsQUQ4riwBRDvx7EFENPEsQUQlP6wBRDGpLEFEMLF_xIQgcOxBRD4q7EFEPPHsQUQ0-GvBRCIh7AFEL22rgUQrsGxBRD-17AFEIjjrwUQ7bmxBRDwnLAFEJajsQUQ8LuxBRDr6P4SEJmYsQUQ9KuwBRCigbAFEJDMsQUQ0I2wBRCNlLEFEParsAUQ6sOvBRCKobEFEIXDsQUQt-r-EhC9irAFEO_NsAUQqtiwBRCPw7EFEL2ZsAUQlpWwBRCSy7EFENGvsQUQgsawBRDJ968FEMnmsAUQ3u2wBRCw7rAFEOnMsQUQ-syxBRCSrrEFEMzfrgUQmI2xBRCokrEFEKaTsQUQx-awBRDTz7EFEOCrsQUQnbT_EhDOy_8SKhxDQU1TRHhVTW9MMndETkhrQnJxNWh3b2RCdz09","coldConfigData":"CL6Jp7cGGjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQSIyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D","coldHashData":"CL6Jp7cGEhM4MzcyMjg4Nzg1MDY2MDg0NzkyGL6Jp7cGMjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQToyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D","hotHashData":"CL6Jp7cGEhM2ODA4NDEzMTM1MzUwOTY2OTYzGL6Jp7cGMjJBT2pGb3gyT1hwc1JRY2dJSnRPS0VST1RjT0NGdU5ZMnlCM200bHFuTXFaNG9DQUpnQToyQU9qRm94MERYLVNDa3dpOEY2TTNnX3ZwUkZlWEVhcE1LRS14ZnRqT281bEJHdExQOVE%3D"},"screenDensityFloat":1,"userInterfaceTheme":"USER_INTERFACE_THEME_DARK","timeZone":"Europe/Paris","browserName":"Chrome","browserVersion":"128.0.0.0","acceptHeader":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","deviceExperimentId":"ChxOelF4TXpFek1qSXhPVFkyTnpJd05UYzRNdz09EL6Jp7cGGPr4grcG","screenWidthPoints":1920,"screenHeightPoints":911,"utcOffsetMinutes":120,"musicAppInfo":{"pwaInstallabilityStatus":"PWA_INSTALLABILITY_STATUS_CAN_BE_INSTALLED","webDisplayMode":"WEB_DISPLAY_MODE_BROWSER","storeDigitalGoodsApiSupportStatus":{"playStoreDigitalGoodsApiSupportStatus":"DIGITAL_GOODS_API_SUPPORT_STATUS_UNSUPPORTED"}}},"user":{"lockedSafetyMode":false},"request":{"useSsl":true,"internalExperimentFlags":[],"consistencyTokenJars":[]},"adSignalsInfo":{"params":[{"key":"dt","value":"1726596286859"},{"key":"flash","value":"0"},{"key":"frm","value":"0"},{"key":"u_tz","value":"120"},{"key":"u_his","value":"8"},{"key":"u_h","value":"1080"},{"key":"u_w","value":"1920"},{"key":"u_ah","value":"1032"},{"key":"u_aw","value":"1920"},{"key":"u_cd","value":"24"},{"key":"bc","value":"31"},{"key":"bih","value":"911"},{"key":"biw","value":"1903"},{"key":"brdim","value":"0,0,0,0,1920,0,1920,1032,1920,911"},{"key":"vis","value":"1"},{"key":"wgl","value":"true"},{"key":"ca_type","value":"image"}]}}}'

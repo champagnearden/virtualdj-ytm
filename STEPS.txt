@@ -1,0 +1,69 @@
+WANTED:
+    - User search in form like sound cloud
+    - If the song is already downloaded then gather informations about it
+    - Search is formatted and sent to youtube
+    - results are listed in an array
+    - the user is drag and dropping one row on one track
+    - the song is downloaded on the computer
+    - the song is added to the track
+    - the song is stored locally as a cache 
+
+STEPS:
+- Craft the request to send with curl (and be accepted by google)
+    - Find the requested values by first request
+    - see ./test/search.sh
+    - TODO Make sure to be authenticated
+- Get the path in the answer to find the song name and the artist
+    - See ## Response ## 
+- Get the audio file
+    - See ## Response ## / VIDEO_ID
+    - url = https://music.youtube.com/watch?v=${VIDEO_ID}
+- Download the audio file
+    - https://github.com/Tarferi/youtubedownloader
+    - youtubedownloader -d $url -f A/mp3
+- Import the audio file in VitrualDJ
+    - 
+
+## Response ##
+    i=0; i++
+    prefix: Array<Object> = contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents
+    TITLE:
+        Main:
+            prefix[1].musicCardShelfRenderer.title.runs[0].text
+        Others:
+            path(int i) => prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+    ARTIST:
+        Main:
+            prefix[1].musicCardShelfRenderer.subtitle.runs[2].text
+        Others:
+            path(int i) => prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+    ALBUM:
+        Main:
+            prefix[1].musicCardShelfRenderer.subtitle.runs[4].text
+        Others:
+            path(int i) => prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+            prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+            prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+            prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[2].text
+    DURATION:
+        Main:
+            prefix[1].musicCardShelfRenderer.subtitle.runs[6].text
+        Others:
+            path(int i) => prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+            prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+            prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+            prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs[4].text
+    VIDEO_ID:
+        Main: 
+            prefix[1].musicCardShelfRenderer.title.runs[0].navigationEndpoint.watchEndpoint.videoId
+        Others:
+            path(int i) => return prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint.watchEndpoint.videoId
+            prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint.watchEndpoint.videoId
+            prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint.watchEndpoint.videoId
+            prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].navigationEndpoint.watchEndpoint.videoId

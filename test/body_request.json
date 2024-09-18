@@ -1,0 +1,9 @@
+{
+    "context": {
+        "client": {
+            "clientName": "WEB_REMIX",
+            "clientVersion": "1.20240911.01.00"
+        }
+    },
+    "query": "bonjour"
+}
