@@ -1,1 +1,6 @@
 test/query-full-body.json
+virtualdj-ytm/.vs/**
+virtualdj-ytm/build/**
+virtualdj-ytm/out/**
+virtualdj-ytm/vcpkg_installed/**
+

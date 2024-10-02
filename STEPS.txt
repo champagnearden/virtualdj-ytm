@@ -1,3 +1,14 @@
+TODO: 
+    + craft the URL of the music
+    - make sure the libs are installed                      I won't do that
+    + list the downloaded musics                            (kinda)
+    + see if the music is aleready installed
+    + else download the video in mp3
+    - make it a plugin
+    - gather informations from input field like soundcloud
+    - list all files in the box like soundcloud
+    - confirm box
+
 WANTED:
     - User search in form like sound cloud
     - If the song is already downloaded then gather informations about it
@@ -9,20 +20,20 @@ WANTED:
     - the song is stored locally as a cache 
 
 STEPS:
-- Craft the request to send with curl (and be accepted by google)
-    - Find the requested values by first request
-    - see ./test/search.sh
-    - TODO Make sure to be authenticated
-- Get the path in the answer to find the song name and the artist
-    - See ## Response ## 
-- Get the audio file
-    - See ## Response ## / VIDEO_ID
-    - url = https://music.youtube.com/watch?v=${VIDEO_ID}
-- Download the audio file
-    - https://github.com/Tarferi/youtubedownloader
-    - youtubedownloader -d $url -f A/mp3
-- Import the audio file in VitrualDJ
-    - 
+    - Craft the request to send with curl (and be accepted by google)
+        - Find the requested values by first request
+        - see ./test/search.sh
+        - TODO Make sure to be authenticated
+    - Get the path in the answer to find the song name and the artist
+        - See ## Response ## 
+    - Get the audio file
+        - See ## Response ## / VIDEO_ID
+        - url = https://music.youtube.com/watch?v=${VIDEO_ID}
+    - Download the audio file
+        - https://github.com/Tarferi/youtubedownloader
+        - youtubedownloader -d $url -f A/mp3
+    - Import the audio file in VitrualDJ
+        - 
 
 ## Response ##
     i=0; i++
@@ -31,7 +42,7 @@ STEPS:
         Main:
             prefix[1].musicCardShelfRenderer.title.runs[0].text
         Others:
-            path(int i) => prefix[2].musicShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+            path(int i) => prefix[2]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"]
             prefix[2].musicShelfRenderer.contents[0].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
             prefix[2].musicShelfRenderer.contents[1].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
             prefix[2].musicShelfRenderer.contents[2].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text

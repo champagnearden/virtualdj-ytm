@@ -1,0 +1,7 @@
+{
+  "dependencies": [
+    "cpr",
+    "nlohmann-json",
+    "ffmpeg"
+  ]
+}
