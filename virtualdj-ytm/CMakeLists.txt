@@ -21,7 +21,7 @@ if(DEFINED ENV{VCPKG_ROOT})
 endif()
 
 # Add executable
-add_executable(virtualdj-ytm "virtualdj-ytm.cpp" "virtualdj-ytm.h")
+add_executable(virtualdj-ytm "virtualdj-ytm.cpp" )
 
 # Find CPR and JSON packages installed by vcpkg
 find_package(CPR CONFIG REQUIRED)

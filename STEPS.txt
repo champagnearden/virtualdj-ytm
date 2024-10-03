@@ -4,6 +4,9 @@ TODO:
     + list the downloaded musics                            (kinda)
     + see if the music is aleready installed
     + else download the video in mp3
+    + encode query
+    + UTF-8 encoding
+    + find the songs only and not podcasts or other trash
     - make it a plugin
     - gather informations from input field like soundcloud
     - list all files in the box like soundcloud
