@@ -7,6 +7,8 @@ TODO:
     + encode query
     + UTF-8 encoding
     + find the songs only and not podcasts or other trash
+    - How the fuck do I create a usable .exe file ????
+    - Make GUI
     - make it a plugin
     - gather informations from input field like soundcloud
     - list all files in the box like soundcloud
