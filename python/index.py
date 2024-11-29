@@ -1,22 +1,20 @@
+from typing import List
 import os, urllib.parse
-import requests as rq
+from requests import post, RequestException
+from song import Song
+from logger import Logger
 
-SEPARATOR = '\u2022'
+# SEPARATOR = '\u2022'
+SEPARATOR = ' & '
 FORMAT = "m4a"
 VIDEO_URL = "https://music.youtube.com/watch?v="
 OUTPUT_PATH = os.path.expanduser("~")+"/.virtualdj-ytm/Downloads"
-TITLE = "title"
-VIDEO_ID = "video_id"
-ARTIST = "artist"
-ALBUM = "album"
-DURATION = "duration"
-THUMBNAILS_URL = "thumbnails"
 
-def download_song(song: dict):
-    video_id = song[VIDEO_ID]
-    filename = f"{song[TITLE]} - {song[ARTIST]}.{FORMAT}"
+def download_song(song: Song, path=OUTPUT_PATH):
+    video_id = song.video_id
+    filename = f"{song.title} - {song.artist}.{FORMAT}"
 
-    if os.path.isfile(os.path.join(OUTPUT_PATH, filename)):
+    if os.path.isfile(os.path.join(path, filename)):
         print(f"{filename} already downloaded !")
         return
     
@@ -24,7 +22,6 @@ def download_song(song: dict):
         os.makedirs(OUTPUT_PATH)
     
     command = "yt-dlp -f bestaudio[ext={}] --extract-audio --audio-format {} -o \"{}/{}\" \"{}\"".format(FORMAT, FORMAT, OUTPUT_PATH, filename, VIDEO_URL + video_id)
-    print(command)
     result = os.system(command)
     if result == 0:
         print("Download successfull")
@@ -32,23 +29,70 @@ def download_song(song: dict):
         print(f"Error downloading {filename}")
     
 def get_artist(path, i=0) -> str:
-    ret=""
-    while i < len(path):
-        current = path[i]["text"]
-        if current.find(SEPARATOR):
-            break
-        ret += current
-        i+=1
-    return ret
+    ret=path[0]["text"]
+    # get the indexes of "&"
+    indexes = [i for i in range(len(path)) if path[i]["text"]==SEPARATOR]
+    for i, esp in enumerate(indexes):
+        ret+=SEPARATOR
+        ret+=path[2*(i+1)]["text"]
+    return (ret, len(indexes)*2)
 
-def get_prefix_index(prefix, key):
+def get_prefix_index(prefix, key) -> str:
     for i in range(len(prefix)):
         if prefix[i].get(key):
             return i
-    return -1
+    return 1 # If recognized by youtube then it's in index 2
 
-def perform_post_request(query):
-    encoded_query = urllib.parse.quote(query)
+def get_top_result(prefix):
+    logger = Logger(Logger.DEBUG)
+    prefix_index = get_prefix_index(prefix, "musicCardShelfRenderer")
+    sub_prefix = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["navigationEndpoint"]
+    keys = sub_prefix.keys()
+    top_result_type = ""
+    if ("browseEndpoint" in keys):
+        # ARTIST or PODCAST or PLAYLIST or ALBUM
+        top_result_type = sub_prefix["browseEndpoint"]["browseEndpointContextSupportedConfigs"]["browseEndpointContextMusicConfig"]["pageType"]
+    elif ("watchEndpoint" in keys):
+        # SONG or VIDEO
+        top_result_type = sub_prefix["watchEndpoint"]["watchEndpointMusicSupportedConfigs"]["watchEndpointMusicConfig"]["musicVideoType"]
+    logger.log(f"Top result type: {top_result_type}", Logger.DEBUG)
+    
+    # Case if the top result is podcast
+    if (top_result_type == "MUSIC_PAGE_TYPE_NON_MUSIC_AUDIO_TRACK_PAGE"):
+        return []
+    # Case if the top result is a playlist or an album
+    elif (top_result_type in ["MUSIC_PAGE_TYPE_PLAYLIST", "MUSIC_PAGE_TYPE_ALBUM"]):
+        return []
+    # Case if the top result is an artist
+    elif (top_result_type == "MUSIC_PAGE_TYPE_ARTIST"):
+        # prefix[1].musicCardShelfRenderer.contents[i].musicResponsiveListItemRenderer.flexColumns[0].musicResponsiveListItemFlexColumnRenderer.text.runs[0].text
+        return [
+            Song(
+                title = song["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"],
+                artist = song["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][2]["text"],
+                album = "undefined",
+                thumbnail_url = song["musicResponsiveListItemRenderer"]["thumbnail"]["musicThumbnailRenderer"]["thumbnail"]["thumbnails"],
+                duration = song["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][-1]["text"] if len(song["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][-1]["text"].split(":")) == 2 else "undefined",
+                video_id = song["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["navigationEndpoint"]["watchEndpoint"]["videoId"]
+            ) for song in prefix[prefix_index]["musicCardShelfRenderer"]["contents"] if song["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"] == "Song"
+        ]
+    # Case if the top result is a song or a video
+    elif (top_result_type in ["MUSIC_VIDEO_TYPE_ATV", "MUSIC_VIDEO_TYPE_UGC"]):
+        infos = prefix[prefix_index]["musicCardShelfRenderer"]["subtitle"]["runs"]
+        return [Song(
+            title = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["text"], # TITLE
+            artist = infos[2]["text"], # ARTIST
+            album = infos[4]["text"] if top_result_type == "MUSIC_VIDEO_TYPE_ATV" and len(infos)>5 else "undefined", # ALBUM
+            thumbnail_url = prefix[prefix_index]["musicCardShelfRenderer"]["thumbnail"]["musicThumbnailRenderer"]["thumbnail"]["thumbnails"], #THUMBNAILS
+            duration = infos[-1]["text"], # DURATION
+            video_id = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["navigationEndpoint"]["watchEndpoint"]["videoId"] # VIDEO_ID
+        )]
+    else:
+        logger.log("Error: Top result is not a song, video, podcast, artist or playlist", Logger.ERROR)
+        return []
+
+def search_songs(query) -> List[Song]:
+    logger = Logger(Logger.DEBUG)
     headers = {"Content-Type": "application/json; charset=utf-8"}
     body_request = {
         "context": {
@@ -57,65 +101,51 @@ def perform_post_request(query):
                 "clientVersion": "1.20240911.01.00"
             }
         },
-        "query": encoded_query
+        "query": query
     }
 
     try:
-        response = rq.post( 
+        response = post( 
             "https://music.youtube.com/youtubei/v1/search?prettyPrint=false",
             headers=headers, 
             json=body_request
         )
 
         if (response.status_code == 200):
+            logger.log("Request successfull", Logger.DEBUG)
             rep = response.json()
             prefix = rep["contents"]["tabbedSearchResultsRenderer"]["tabs"][0]["tabRenderer"]["content"]["sectionListRenderer"]["contents"] # never changes
-            prefix_index = get_prefix_index(prefix, "musicCardShelfRenderer")
-            infos = prefix[prefix_index]["musicCardShelfRenderer"]["subtitle"]["runs"]
+            search = get_top_result(prefix)
             for offset in range(len(prefix)):
                 if "musicShelfRenderer" in prefix[offset].keys():
                     if prefix[offset]["musicShelfRenderer"]["title"]["runs"][0]["text"] == "Songs":
                         break
-            search = [dict() for _ in range(len(prefix[offset]["musicShelfRenderer"]["contents"])+1)]
-            search[0][TITLE] = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["text"]
-            search[0][ARTIST] = infos[prefix_index + 1]["text"]
-            search[0][ALBUM] = infos[4]["text"] if "navigationEndpoint" in infos[prefix_index + 3].keys() else "undefined"
-            search[0][THUMBNAILS_URL] = prefix[prefix_index]["musicCardShelfRenderer"]["thumbnail"]["musicThumbnailRenderer"]["thumbnail"]["thumbnails"]
-
-            video_id_prefix = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["navigationEndpoint"]
-            # wether the song is a podcast / an episode or a regular song, youtube handles it differently
-            if ("browseEndpoint" in video_id_prefix.keys()):
-                search[0][VIDEO_ID] = video_id_prefix["browseEndpoint"]["browseId"]
-                search[0][DURATION] = "NOT AN ACTUAL SONG"
-            else:
-                search[0][VIDEO_ID] = video_id_prefix["watchEndpoint"]["videoId"]
-                search[0][DURATION] = infos[prefix_index + 5]["text"]
-            
-            for i in range(len(prefix[offset]["musicShelfRenderer"]["contents"])): 
-                search[i+1][TITLE] = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"]
-                search[i+1][ARTIST] = get_artist(prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"])
-                search[i+1][ALBUM] = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][2]["text"]
-                search[i+1][DURATION] = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][4]["text"]
-                search[i+1][VIDEO_ID] = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["navigationEndpoint"]["watchEndpoint"]["videoId"]
-                search[i+1][THUMBNAILS_URL] = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["thumbnail"]["musicThumbnailRenderer"]["thumbnail"]["thumbnails"]
-            
-            # display the search element
-            for x in range(len(search)):
-                print(f"~[{x}]~")
-                
-                for k, v in search[x].items():
-                    print(f" {k}: {v}")
-                
-                print('-' * 30)
+            for i in range(len(prefix[offset]["musicShelfRenderer"]["contents"])):
+                artist, offset_artist = get_artist(prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"])
+                search.append(
+                    Song(
+                        title = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"],
+                        artist = artist,
+                        album = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][2+offset_artist]["text"],
+                        thumbnail_url = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["thumbnail"]["musicThumbnailRenderer"]["thumbnail"]["thumbnails"],
+                        duration = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][-1]["text"],
+                        video_id = prefix[offset]["musicShelfRenderer"]["contents"][i]["musicResponsiveListItemRenderer"]["flexColumns"][0]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["navigationEndpoint"]["watchEndpoint"]["videoId"]
+                    )
+                )
             return search
         else:
-            print(f"Error: {response.status_code}")
-            raise rq.RequestException(response.json()["error"])
+            logger.log(f"Error: {response.status_code}", Logger.ERROR)
+            raise RequestException(response.json()["error"])
     except Exception as e:
-        print("Error: unable to perform the request")
-        print(e)
-        return dict()
-    
+        logger.log("Error: unable to perform the request", Logger.ERROR)
+        logger.log(e, Logger.ERROR)
+        return []
+
+def display_console(search):
+    # display the search element
+    for i,song in enumerate(search):
+        print("~[{}]~\n{}\n{}".format(i+1,song,'-'*30))
+
 def main():
     print("Welcome to VirtualDj-YoutubeMusic")
     index = 0
@@ -124,11 +154,12 @@ def main():
             query = input("Enter your search query: ")
             print("#" *30)
             if query == "exit": raise KeyboardInterrupt
-            search = perform_post_request(query)
+            search = search_songs(query)
+            display_console(search)
             if len(search) > 0:
-                song_index = int(input(f"Choose index [1-{len(search)}] (0 to go back to search): "))
+                index = int(input(f"Choose index [1-{len(search)}] (0 to go back to search): "))
                 if index == 0: continue
-                download_song(search[song_index-1])
+                download_song(search[index-1])
         except KeyboardInterrupt:
             print("\nExiting...")
             break
