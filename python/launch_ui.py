@@ -17,15 +17,28 @@ from PyQt5.QtWidgets import (
     QScrollArea
 )
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from sys import argv, exit
 from requests import get
 from os import path
 
+class DownloadThread(QThread):
+    # Signal emitted when the download finishes
+    finished = pyqtSignal()
+
+    def __init__(self, song, path):
+        super().__init__()
+        self.song = song
+        self.path = path
+
+    def run(self):
+        download_song(self.song, self.path)
+        self.finished.emit()  # Emit the finished signal
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("VirtualDj-YoutubeMusic")
+        self.popup = None
 
         # Central widget
         central_widget = QWidget()
@@ -131,9 +144,30 @@ class MainWindow(QMainWindow):
         download_button = QPushButton("Download")
         download_button.clicked.connect(lambda: self.download_song(song))
         self.details_layout.addWidget(download_button)
+    
+    def close_popup(self, popup:QMessageBox, thread:QThread):
+        popup.close()
+        # Ensure the thread is cleaned up
+        thread.quit()
+        thread.wait()
 
     def download_song(self, song:Song):
-        download_song(song, self.path_field.text())
+        pixmap = QPixmap("./download.png")
+
+        self.popup = QMessageBox()
+        self.popup.setWindowTitle("Downloading...")
+        self.popup.setText("Downloading...")
+        if pixmap.isNull():
+            print("Error: Unable to load image './download.png'")
+        else:
+            resized_pixmap = pixmap.scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.popup.setIconPixmap(resized_pixmap)
+        self.popup.setStandardButtons(QMessageBox.Ignore)
+        self.popup.show()
+        # Start the download in a separate QThread
+        thread = DownloadThread(song, self.path_field.text())
+        thread.finished.connect(lambda: self.close_popup(self.popup, thread))
+        thread.start()
 
     def on_search_click(self):
         # Get the query from the search field

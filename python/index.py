@@ -77,7 +77,7 @@ def get_top_result(prefix):
             ) for song in prefix[prefix_index]["musicCardShelfRenderer"]["contents"] if song["musicResponsiveListItemRenderer"]["flexColumns"][1]["musicResponsiveListItemFlexColumnRenderer"]["text"]["runs"][0]["text"] == "Song"
         ]
     # Case if the top result is a song or a video
-    elif (top_result_type in ["MUSIC_VIDEO_TYPE_ATV", "MUSIC_VIDEO_TYPE_UGC"]):
+    elif (top_result_type.startswith("MUSIC_VIDEO_TYPE")):
         infos = prefix[prefix_index]["musicCardShelfRenderer"]["subtitle"]["runs"]
         return [Song(
             title = prefix[prefix_index]["musicCardShelfRenderer"]["title"]["runs"][0]["text"], # TITLE
