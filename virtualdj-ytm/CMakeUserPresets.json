@@ -6,7 +6,7 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "C:/Users/jbbec/Desktop/Codes/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../../vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
     },
     {
@@ -35,8 +35,8 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_TOOLCHAIN_FILE": "C:/Users/jbbec/Desktop/Codes/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_ROOT": "C:/Users/jbbec/Desktop/Codes/vcpkg"
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_ROOT": "${sourceDir}/../../vcpkg"
       }
     },
     {

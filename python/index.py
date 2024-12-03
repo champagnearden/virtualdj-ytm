@@ -1,34 +1,33 @@
-from typing import List
-import os, urllib.parse
+from os import path, makedirs, system
+from typing import List, Tuple
 from requests import post, RequestException
 from song import Song
 from logger import Logger
 
-# SEPARATOR = '\u2022'
 SEPARATOR = ' & '
 FORMAT = "m4a"
 VIDEO_URL = "https://music.youtube.com/watch?v="
-OUTPUT_PATH = os.path.expanduser("~")+"/.virtualdj-ytm/Downloads"
+OUTPUT_PATH = path.expanduser("~")+"/.virtualdj-ytm/Downloads"
 
 def download_song(song: Song, path=OUTPUT_PATH):
     video_id = song.video_id
     filename = f"{song.title} - {song.artist}.{FORMAT}"
 
-    if os.path.isfile(os.path.join(path, filename)):
+    if path.isfile(path.join(path, filename)):
         print(f"{filename} already downloaded !")
         return
     
-    if not os.path.exists(OUTPUT_PATH):
-        os.makedirs(OUTPUT_PATH)
+    if not path.exists(OUTPUT_PATH):
+        makedirs(OUTPUT_PATH)
     
     command = "yt-dlp -f bestaudio[ext={}] --extract-audio --audio-format {} -o \"{}/{}\" \"{}\"".format(FORMAT, FORMAT, OUTPUT_PATH, filename, VIDEO_URL + video_id)
-    result = os.system(command)
+    result = system(command)
     if result == 0:
         print("Download successfull")
     else:
         print(f"Error downloading {filename}")
     
-def get_artist(path, i=0) -> str:
+def get_artist(path) -> Tuple[str, int]:
     ret=path[0]["text"]
     # get the indexes of "&"
     indexes = [i for i in range(len(path)) if path[i]["text"]==SEPARATOR]
@@ -37,11 +36,11 @@ def get_artist(path, i=0) -> str:
         ret+=path[2*(i+1)]["text"]
     return (ret, len(indexes)*2)
 
-def get_prefix_index(prefix, key) -> str:
+def get_prefix_index(prefix, key) -> int:
     for i in range(len(prefix)):
         if prefix[i].get(key):
             return i
-    return 1 # If recognized by youtube then it's in index 2
+    return 1 # If recognized by youtube then it's in index 1
 
 def get_top_result(prefix):
     logger = Logger(Logger.DEBUG)
