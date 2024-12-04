@@ -1,5 +1,12 @@
 # Virtualdj-ytm (Virtual DJ - Youtube Music)
 
+<a href="https://buymeacoffee.com/champagnearden" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+[![champagnearden - virtualdj-ytm](https://img.shields.io/static/v1?label=champagnearden&message=virtualdj-ytm&color=blue&logo=github)](https://github.com/champagnearden/virtualdj-ytm "Go to GitHub repo")
+[![stars - virtualdj-ytm](https://img.shields.io/github/stars/champagnearden/virtualdj-ytm?style=social)](https://github.com/champagnearden/virtualdj-ytm)
+[![forks - virtualdj-ytm](https://img.shields.io/github/forks/champagnearden/virtualdj-ytm?style=social)](https://github.com/champagnearden/virtualdj-ytm)
+[![issues - virtualdj-ytm](https://img.shields.io/github/issues/champagnearden/virtualdj-ytm)](https://github.com/champagnearden/virtualdj-ytm/issues)
+
 <details open>
   <summary>Content Table</summary>
 
@@ -10,14 +17,12 @@
 
       1. [Python](#41-python)
       2. [C++](#42-c)
-   </details>
-
+      </details>
    5. <details open><summary><a href="#5-how-to-use">How tu use</summary>
 
       1. [UI](#51-ui)
       2. [CLI](#52-cli)
-   </details>
-
+      </details>
    6. [Future](#6-future)
 </details>
 
