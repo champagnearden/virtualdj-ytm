@@ -9,31 +9,32 @@ FORMAT = "m4a"
 VIDEO_URL = "https://music.youtube.com/watch?v="
 OUTPUT_PATH = path.expanduser("~")+"/.virtualdj-ytm/Downloads"
 
-def download_song(song: Song, path=OUTPUT_PATH):
+def download_song(song: Song, path_folder=OUTPUT_PATH):
     video_id = song.video_id
     filename = f"{song.title} - {song.artist}.{FORMAT}"
 
-    if path.isfile(path.join(path, filename)):
+    if path.isfile(path.join(path_folder, filename)):
         print(f"{filename} already downloaded !")
         return
     
-    if not path.exists(OUTPUT_PATH):
-        makedirs(OUTPUT_PATH)
+    if not path.exists(path_folder):
+        makedirs(path_folder)
     
-    command = "yt-dlp -f bestaudio[ext={}] --extract-audio --audio-format {} -o \"{}/{}\" \"{}\"".format(FORMAT, FORMAT, OUTPUT_PATH, filename, VIDEO_URL + video_id)
+    print(path_folder)
+    command = "yt-dlp -f bestaudio[ext={}] --extract-audio --audio-format {} -o \"{}/{}\" \"{}\"".format(FORMAT, FORMAT, path_folder, filename, VIDEO_URL + video_id)
     result = system(command)
     if result == 0:
         print("Download successfull")
     else:
         print(f"Error downloading {filename}")
     
-def get_artist(path) -> Tuple[str, int]:
-    ret=path[0]["text"]
+def get_artist(p) -> Tuple[str, int]:
+    ret=p[0]["text"]
     # get the indexes of "&"
-    indexes = [i for i in range(len(path)) if path[i]["text"]==SEPARATOR]
+    indexes = [i for i in range(len(p)) if p[i]["text"]==SEPARATOR]
     for i, esp in enumerate(indexes):
         ret+=SEPARATOR
-        ret+=path[2*(i+1)]["text"]
+        ret+=p[2*(i+1)]["text"]
     return (ret, len(indexes)*2)
 
 def get_prefix_index(prefix, key) -> int:
