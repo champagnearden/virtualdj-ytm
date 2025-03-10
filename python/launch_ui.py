@@ -14,7 +14,8 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QWidget,
     QHeaderView,
-    QScrollArea
+    QScrollArea,
+    QFileDialog
 )
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
@@ -49,11 +50,17 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(main_layout)
 
         # Path input
-        path_layout = QVBoxLayout()
+        path_layout = QHBoxLayout()
         self.path_field = QLineEdit()
-        self.path_field.setPlaceholderText("Enter download directory...")
         self.path_field.setText(path.expanduser("~")+"/.virtualdj-ytm/Downloads")
+        self.path_field.setPlaceholderText("Enter download directory...")
+        self.path_field.setReadOnly(True)
+
+        # Create the Select Directory button
+        self.select_button = QPushButton("Browse...")
+        self.select_button.clicked.connect(self.select_directory)
         path_layout.addWidget(self.path_field)
+        path_layout.addWidget(self.select_button)
         main_layout.addLayout(path_layout)
 
         # Search section
@@ -176,6 +183,17 @@ class MainWindow(QMainWindow):
             self.perform_search(query)
         else:
             QMessageBox.warning(self, "Warning", "Please enter a search query")
+
+    def select_directory(self):
+        # Open a dialog to select a directory
+        directory = QFileDialog.getExistingDirectory(
+            self,
+            "Select Download Directory",
+            self.path_field.text()  # or some default path
+        )
+        # If a directory is selected, update the text field
+        if directory:
+            self.path_field.setText(directory)
 
 if __name__ == "__main__":
     app = QApplication(argv)
