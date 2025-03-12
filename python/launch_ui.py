@@ -1,6 +1,6 @@
 from typing import List
 from song import Song
-from index import search_songs, download_song
+from index import search_songs, download_song, OUTPUT_PATH
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -52,11 +52,11 @@ class MainWindow(QMainWindow):
         # Path input
         path_layout = QHBoxLayout()
         self.path_field = QLineEdit()
-        self.path_field.setText(path.expanduser("~")+"/.virtualdj-ytm/Downloads")
+        self.path_field.setText(OUTPUT_PATH)
         self.path_field.setPlaceholderText("Enter download directory...")
         self.path_field.setReadOnly(True)
 
-        # Create the Select Directory button
+        # Select Directory button
         self.select_button = QPushButton("Browse...")
         self.select_button.clicked.connect(self.select_directory)
         path_layout.addWidget(self.path_field)
@@ -69,6 +69,7 @@ class MainWindow(QMainWindow):
         self.search_field.setPlaceholderText("Enter your search query...")
         self.search_button = QPushButton("Search")
         self.search_button.clicked.connect(self.on_search_click)  # Connect button click to perform_search
+        self.search_field.returnPressed.connect(self.on_search_click) # Connect enter press to perform_search
         search_layout.addWidget(self.search_field)
         search_layout.addWidget(self.search_button)
         main_layout.addLayout(search_layout)

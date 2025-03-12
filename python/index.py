@@ -4,10 +4,10 @@ from requests import post, RequestException
 from song import Song
 from logger import Logger
 
-SEPARATOR = ' & '
+SEPARATORS = [' & ', ', ']
 FORMAT = "m4a"
 VIDEO_URL = "https://music.youtube.com/watch?v="
-OUTPUT_PATH = path.expanduser("~")+"/.virtualdj-ytm/Downloads"
+OUTPUT_PATH = path.expanduser("~").replace("\\", "/")+"/.virtualdj-ytm/Downloads"
 
 def download_song(song: Song, path_folder=OUTPUT_PATH):
     video_id = song.video_id
@@ -30,10 +30,10 @@ def download_song(song: Song, path_folder=OUTPUT_PATH):
     
 def get_artist(p) -> Tuple[str, int]:
     ret=p[0]["text"]
-    # get the indexes of "&"
-    indexes = [i for i in range(len(p)) if p[i]["text"]==SEPARATOR]
+    # get the indexes of separators
+    indexes = [i for i in range(len(p)) if p[i]["text"] in SEPARATORS]
     for i, esp in enumerate(indexes):
-        ret+=SEPARATOR
+        ret+=SEPARATORS[0] if i==len(indexes)-1 else SEPARATORS[1]
         ret+=p[2*(i+1)]["text"]
     return (ret, len(indexes)*2)
 

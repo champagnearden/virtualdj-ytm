@@ -4,3 +4,4 @@ virtualdj-ytm/build/**
 virtualdj-ytm/out/**
 virtualdj-ytm/vcpkg_installed/**
 
+*.log
