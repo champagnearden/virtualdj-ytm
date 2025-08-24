@@ -11,8 +11,11 @@ class Logger:
         self.log_level = log_level
 
     def write_in_file(self, message):
-        with open("vdj.log", "a", encoding='utf-8') as f:
-            f.write(f"{datetime.now()}: {message}\n")
+        try:
+            with open("vdj.log", "a", encoding='utf-8') as f:
+                f.write(f"{datetime.now()}: {message}\n")
+        except Exception as e:
+            print(f"Error writing to log file: {e}")
 
     def log(self, message, level):
         msg = f"[{level}] {message}"
